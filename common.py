@@ -85,7 +85,11 @@ def visualize_maxima(image, maxima, min_sigma, k, file_path=None):
     #   maxima: list of (x,y) tuples; x<W, y<H
     #   file_path: path to save image. if None, display to screen
     # Output-   None
-    H, W = image.shape
+    dim = len(image.shape)
+    if dim == 2:
+        H, W = image.shape
+    elif dim == 3:
+        H, W, C = image.shape
     plt.imshow(image)
     for maximum in maxima:
         y, x, s = maximum
