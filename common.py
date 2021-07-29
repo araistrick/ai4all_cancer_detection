@@ -86,14 +86,13 @@ def visualize_maxima(image, maxima, min_sigma, k, file_path=None):
     #   file_path: path to save image. if None, display to screen
     # Output-   None
     H, W = image.shape
-    fig, ax = plt.subplots(1)
-    ax.imshow(image)
+    plt.imshow(image)
     for maximum in maxima:
         y, x, s = maximum
         assert x < W and y < H and x >= 0 and y >= 0
         radius = np.sqrt(2 * min_sigma * (k**s))
         circ = plt.Circle((x, y), radius, color='r', fill=False)
-        ax.add_patch(circ)
+        plt.gca().add_patch(circ)
 
     if file_path:
         plt.savefig(file_path)
