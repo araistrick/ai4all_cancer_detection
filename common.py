@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from PIL import Image
-
+import cv2
 
 def read_img(path, greyscale=True):
     img = Image.open(path)
@@ -99,3 +99,25 @@ def visualize_maxima(image, maxima, min_sigma, k, file_path=None):
         plt.savefig(file_path)
     else:
         plt.show()
+
+def visualize_dog_kernel(sigma_1, sigma_2):
+
+    size = 4 * max(sigma_1, sigma_2)
+
+    k1 = cv2.getGaussianKernel(size, sigma_1)
+    k2 = cv2.getGaussianKernel(size, sigma_2)
+
+    k1 = k1 @ k1.T
+    k2 = k2 @ k2.T
+
+    plt.subplot(1, 3, 1)
+    plt.imshow(k1)
+    plt.title('Sigma 1')
+
+    plt.subplot(1, 3, 2)
+    plt.imshow(k2)
+    plt.title('Sigma 2')
+
+    plt.subplot(1, 3, 3)
+    plt.imshow(k2 - k1)
+    plt.title('Sigma 2 minus Sigma 1')

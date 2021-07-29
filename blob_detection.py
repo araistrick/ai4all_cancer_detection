@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 from common import (find_maxima, read_img, visualize_maxima,
-                    visualize_scale_space)
+                    visualize_scale_space, visualize_dog_kernel)
 # ~~START DELETE~~
 from scipy.signal import convolve2d as convolve
 
