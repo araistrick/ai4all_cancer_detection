@@ -5,40 +5,29 @@ import numpy as np
 from common import (find_maxima, read_img, visualize_maxima,
                     visualize_scale_space, visualize_dog_kernel)
 # ~~START DELETE~~
-from scipy.signal import convolve2d as convolve
+from scipy.signal import convolve2d as conv
 
 # ~~END DELETE~~
 
 
 def gaussian_filter(image, sigma):
     # Given an image, apply a Gaussian filter with the input kernel size
-    # and standard deviation
-    # Input
-    #   image: image of size HxW
-    #   sigma: scalar standard deviation of Gaussian Kernel
-    #
-    # Output
-    #   Gaussian filtered image of size HxW
+    # and standard deviation 
+    # Input-    image: image of size HxW
+    #           sigma: scalar standard deviation of Gaussian Kernel
+    # Output-   Gaussian filtered image of size HxW
     H, W = image.shape
-    # -- good heuristic way of setting kernel size
-    kernel_size = int(2 * np.ceil(2 * sigma) + 1)
+    
+    # -- good heuristic way of setting kernel size 
+    kernel_size = int(2 * np.ceil(2*sigma) + 1)
 
-    # Ensure that the kernel size isn't too big and is odd
-    kernel_size = min(kernel_size, min(H, W) // 2)
-    if kernel_size % 2 == 0:
-        kernel_size = kernel_size + 1
-
-    # TODO implement gaussian filtering of size kernel_size x kernel_size
-    # You can use your convolution function or scipy's convolution function
-    output = None
-    # ~~START DELETE~~
-    k_h = kernel_size // 2
-    g_1d = np.arange(-k_h, k_h + 1)[:, None]**2
-    g_2d = -1 * (g_1d + g_1d.T)
-    g_kern = np.exp(g_2d / (2 * sigma**2)) / (2 * np.pi * sigma**2)
-    output = convolve(image, g_kern, mode='same')
-    # ~~END DELETE~~
-    return output
+    # make sure that kernel size isn't too big and is odd 
+    kernel_size = min(kernel_size, min(H,W)//2)     
+    if kernel_size % 2 == 0: kernel_size = kernel_size + 1  
+        
+    k1d = gaussian1d(kernel_size, sigma ** 2)
+    
+    return conv(conv(image, k1d, mode="same", boundary="symm"), k1d.T, mode="same", boundary="symm")
 
 
 def scale_space(image, min_sigma, k=np.sqrt(2), S=8):
