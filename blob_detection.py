@@ -9,6 +9,11 @@ from scipy.signal import convolve2d as conv
 
 # ~~END DELETE~~
 
+def gaussian1d(d, var):
+    assert d % 2 == 1
+    xs = np.arange(d) - d // 2
+    output = np.exp(-xs ** 2 / (2 * var)) / np.sqrt(2 * np.pi * var)
+    return output[None] / output.sum()
 
 def gaussian_filter(image, sigma):
     # Given an image, apply a Gaussian filter with the input kernel size

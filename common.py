@@ -99,9 +99,7 @@ def visualize_maxima(image, maxima, min_sigma, k, file_path=None):
     else:
         plt.show()
 
-def visualize_dog_kernel(sigma_1, sigma_2):
-
-    size = 4 * max(sigma_1, sigma_2)
+def visualize_dog_kernel(sigma_1, sigma_2, size):
 
     k1 = cv2.getGaussianKernel(size, sigma_1)
     k2 = cv2.getGaussianKernel(size, sigma_2)
